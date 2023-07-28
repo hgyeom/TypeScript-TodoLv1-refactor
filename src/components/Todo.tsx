@@ -1,11 +1,16 @@
 import Card from "components/Card";
+import { Props, todo } from "model/todos";
 
-const Todo = ({ todoList, setTodoList }) => {
+type TodoProps = {
+  todoList: todo[];
+  setTodoList: Props["setTodoList"];
+};
+const Todo = ({ todoList, setTodoList }: TodoProps) => {
   return (
     <div className="todo-container">
       <h1>Working</h1>
       <section className="todo-wrapper">
-        {todoList.map((todo) => {
+        {todoList.map((todo: todo) => {
           return !todo.isDone ? (
             <Card
               key={todo.id}
@@ -18,7 +23,7 @@ const Todo = ({ todoList, setTodoList }) => {
       </section>
       <h1>Done</h1>
       <section className="todo-wrapper">
-        {todoList.map((todo) => {
+        {todoList.map((todo: todo) => {
           return todo.isDone ? (
             <Card
               key={todo.id}

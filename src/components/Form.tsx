@@ -1,44 +1,52 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { v4 as uuid } from "uuid";
+import { Props, todo } from "../model/todos";
 
-let newTodoId = 4;
+type FormProps = {
+  todoList: todo[];
+  setTodoList: Props["setTodoList"];
+};
 
-const Form = ({ todoList, setTodoList }) => {
+const Form = ({ todoList, setTodoList }: FormProps) => {
+  const titleRef = useRef<HTMLInputElement>(null);
+  const bodyRef = useRef<HTMLInputElement>(null);
+
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   console.log(todoList);
+
   // title 변경
-  const onTitleChangeHandler = (e) => {
+  const onTitleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
   // body 변경
-  const onBodyChangeHandler = (e) => {
+  const onBodyChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBody(e.target.value);
   };
 
   // set todolist
-  const onAddClickHandler = (e) => {
+  const onAddClickHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
-    if (document.querySelector(".title-input").getAttribute("value") === "") {
+    if (!titleRef.current?.value) {
       alert("제목을 입력해 주세요.");
-      document.querySelector(".title-input").focus();
       return;
     }
-    if (document.querySelector(".body-input").getAttribute("value") === "") {
+    if (!bodyRef.current?.value) {
       alert("내용을 입력해 주세요.");
-      document.querySelector(".body-input").focus();
       return;
     }
 
-    const todo = {
-      id: newTodoId,
+    const newTodo = {
+      id: uuid(),
       title,
       body,
       isDone: false,
     };
 
-    newTodoId++;
-    setTodoList([...todoList, todo]);
+    setTodoList([...todoList, newTodo]);
     setTitle("");
     setBody("");
   };
@@ -48,6 +56,7 @@ const Form = ({ todoList, setTodoList }) => {
       <div className="form-input">
         <label>제목</label>
         <input
+          ref={titleRef}
           type="text"
           className="title-input"
           value={title}
@@ -55,6 +64,7 @@ const Form = ({ todoList, setTodoList }) => {
         />
         <label>내용</label>
         <input
+          ref={bodyRef}
           type="text"
           className="body-input"
           value={body}
