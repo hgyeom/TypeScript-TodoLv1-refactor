@@ -2,10 +2,10 @@ import { useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { Props, todo } from "../model/todos";
 
-type FormProps = {
+interface FormProps {
   todoList: todo[];
   setTodoList: Props["setTodoList"];
-};
+}
 
 const Form = ({ todoList, setTodoList }: FormProps) => {
   const titleRef = useRef<HTMLInputElement>(null);

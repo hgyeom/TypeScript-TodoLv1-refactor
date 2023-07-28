@@ -1,10 +1,10 @@
 import Card from "components/Card";
 import { Props, todo } from "model/todos";
 
-type TodoProps = {
+interface TodoProps {
   todoList: todo[];
   setTodoList: Props["setTodoList"];
-};
+}
 const Todo = ({ todoList, setTodoList }: TodoProps) => {
   return (
     <div className="todo-container">
